@@ -10,7 +10,7 @@ public class UsuarioDao {
     private File file;
 
     public UsuarioDao() {
-        File file = new File("Usuarios");
+        file = new File("Usuarios");
         //Criando o arquivo
         if (!file.exists()) {
             try {
@@ -52,8 +52,14 @@ public class UsuarioDao {
         return false;
     }
 
-
-
+    public boolean addUsuario(Usuario usuario){
+        List<Usuario> usuarios = listarUsuarios();
+        if(usuarios.add(usuario)){
+            atualizarArquivo(usuarios);
+            return true;
+        }
+        return false;
+    }
 }
 
 
