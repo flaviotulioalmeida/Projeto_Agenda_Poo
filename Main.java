@@ -1,36 +1,45 @@
 package view;
 
-import model.Agenda;
-import model.Contato;
-import model.Usuario;
+import java.io.*;
+import java.util.List;
 
 public class Main {
-
-
     public static void main(String[] args) {
 
-        Usuario usuario = new Usuario("joao@gmail.com","123456");
-
-        Contato maria = new Contato("Maria","maria@gmail.com","83 999999-9999");
-        usuario.getAgenda().adicionar(maria);
-
-        Contato pedro = new Contato("Pedro","pedro@gmail.com","83 777777-7777");
-        usuario.getAgenda().adicionar(pedro);
-
-        usuario.getAgenda().adicionar(new Contato("Maria","maria@gmail.com","83 999999-9999"));
-        usuario.getAgenda().adicionar(new Contato("Roberto","roberto@gmail.com","83 888888-8888"));
-        usuario.getAgenda().adicionar(new Contato("Pedro","pedro@gmail.com","83 777777-7777"));
-        usuario.getAgenda().adicionar(new Contato("Ana","ana@gmail.com","83 666666-6666"));
-
-        System.out.println(usuario.getAgenda().getContatos());
-
-        //Chamar os métodos de deletar e atualizar
-
-        usuario.getAgenda().remover(maria);
+        File file = new File("teste.txt");
 
 
-        usuario.getAgenda().atualizar(pedro, new Contato("Pedro da Silva","pedrodasilva@gmail.com","83 555555-5555"));
-        System.out.println(usuario.getAgenda().getContatos());
+        //Criar arquivo
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            }catch (IOException exception){
+                System.out.println("Falha ao criar arquivo");
+            }
+        }
+
+//      List<String> lista = List.of("João", "Maria", "Pedro");
+
+        //Escrever no arquivo
+//        try {
+//            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file)
+//            );
+//            out.writeObject(lista);
+//        }catch(IOException exception){
+//            System.out.println("Falha ao escrever no arquivo");
+//        }
+
+        //Ler do arquivo
+        try{
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file)
+            );
+            List<String> lista = (List<String>) in.readObject();
+            System.out.println(lista);
+        }catch (IOException exception){
+            System.out.println("Falha ao ler arquivo");
+        }catch (ClassNotFoundException e){
+            throw new RuntimeException(e);
+        }
 
     }
 }
