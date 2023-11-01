@@ -1,10 +1,8 @@
 package dao;
 
 import model.Usuario;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +21,7 @@ public class UsuarioDao {
         }
     }
 
+    //Listar Usuarios
     public List<Usuario> listarUsuarios() {
 
         if (file.length() > 0) {
@@ -39,6 +38,22 @@ public class UsuarioDao {
         }
         return new ArrayList<>();
     }
+
+    //Atualizar Arquivos
+    private boolean atualizarArquivo(List<Usuario> lista){
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file)
+            );
+            out.writeObject(lista);
+            return true;
+        }catch(IOException exception){
+            System.out.println(exception);
+        }
+        return false;
+    }
+
+
+
 }
 
 
