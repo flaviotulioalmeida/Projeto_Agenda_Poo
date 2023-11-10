@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Usuario implements Serializable {
 
@@ -34,6 +35,18 @@ public class Usuario implements Serializable {
 
     public Agenda getAgenda() {
         return agenda;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario usuario)) return false;
+        return Objects.equals(getEmail(), usuario.getEmail()) && Objects.equals(getSenha(), usuario.getSenha()) && Objects.equals(getAgenda(), usuario.getAgenda());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getSenha(), getAgenda());
     }
 
     @Override

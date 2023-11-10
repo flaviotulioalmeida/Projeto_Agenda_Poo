@@ -1,14 +1,12 @@
 package dao;
 
 import model.Usuario;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDao {
     private File file;
-
     public UsuarioDao() {
         file = new File("Usuarios");
         //Criando o arquivo
@@ -23,7 +21,6 @@ public class UsuarioDao {
 
     //Listar Usuarios
     public List<Usuario> listarUsuarios() {
-
         if (file.length() > 0) {
             try {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(file)
@@ -60,6 +57,41 @@ public class UsuarioDao {
         }
         return false;
     }
-}
 
+    public boolean deletarUsuario(Usuario usuario){
+        List<Usuario> usuarios = listarUsuarios();
+        if(usuarios.remove(usuario)){
+            atualizarArquivo(usuarios);
+            return true;
+        }
+        return false;
+    }
+
+    public Usuario buscarPorEmail(String email){
+        List<Usuario> usuarios = listarUsuarios();
+        for(Usuario usuario: usuarios){
+            if(usuario.getEmail().equals(email)){
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public boolean atualizarUsuario(Usuario usuario){
+        Usuario usuario1 = buscarPorEmail(usuario.getEmail());
+        if(usuario1 != null){
+            List<Usuario> usuarios = listarUsuarios();
+            usuarios.remove(usuario1);
+            usuarios.add(usuario);
+            atualizarArquivo(usuarios);
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+}
 
